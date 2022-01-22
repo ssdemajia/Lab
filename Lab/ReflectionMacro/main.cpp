@@ -62,12 +62,29 @@ namespace Reflection {
 	};
 
 }
+
+template<class Ty, Ty V>
+struct integral_constant {
+	static constexpr Ty value = V;
+};
+
+template<bool B>
+using bool_constant = integral_constant<bool, B>;
+
+using true_type = bool_constant<true>;
+using false_type = bool_constant<false>;
+
+template <class T> struct is_reference : false_type {};
+template <class T> struct is_reference<T&> : true_type {};
+template <class T> struct is_reference<T&&> : true_type {};
+
 struct Node {
 	std::string key;
 	std::vector<Node> children;
 };
 int main()
 {
+	auto a = false_type::value;
 	return 0;
 
 }
